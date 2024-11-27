@@ -1,0 +1,8 @@
+[package]
+name = "aoc_2024_rs"
+version = "0.1.0"
+edition = "2021"
+authors = ["Sagi Sarussi"]
+
+[dependencies]
+clap = { version = "4.5.21" }

@@ -1,0 +1,15 @@
+# Temp Nix stuff
+result
+
+# numtide/devshells
+.direnv/
+
+# cachix/git-hooks.nix
+.pre-commit-config.yaml
+
+.credentials/*
+!.credentials/.gitkeep
+
+# Added by cargo
+/target
+
