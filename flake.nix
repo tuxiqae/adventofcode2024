@@ -39,6 +39,7 @@
       perSystem = {
         pkgs,
         config,
+        self',
         ...
       }: let
         crateName = "aoc_2024_rs";
@@ -48,6 +49,11 @@
           crates.${crateName} = {
             export = true;
           };
+        };
+        packages = {
+          release = config.nci.outputs.${crateName}.packages.release;
+          dev = config.nci.outputs.${crateName}.packages.dev;
+          default = self'.packages.release;
         };
         devshells.default = {
           devshell.startup.pre-commit.text = config.pre-commit.installationScript;
