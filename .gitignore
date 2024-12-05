@@ -13,3 +13,7 @@ result
 # Added by cargo
 /target
 
+# Data
+data/*
+!data/.gitkeep
+
