@@ -1,5 +1,5 @@
 {
-  description = "Automatic EC2 provisioner";
+  description = "Advent of Code 2024 Rust Boilerplate";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -51,9 +51,9 @@
           };
         };
         packages = {
+          default = self'.packages.release;
           release = config.nci.outputs.${crateName}.packages.release;
           dev = config.nci.outputs.${crateName}.packages.dev;
-          default = self'.packages.release;
         };
         devshells.default = {
           devshell.startup.pre-commit.text = config.pre-commit.installationScript;
