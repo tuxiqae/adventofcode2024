@@ -32,7 +32,7 @@ fn main() {
     let days_path = format!("{}/days", data_path.display());
     std::fs::create_dir_all(&days_path).unwrap();
     std::env::set_var("DATA_PATH", data_path.display().to_string());
-    let days: Vec<&dyn AocDay> = vec![&days::day01::AocDayOne];
+    let days: Vec<&dyn AocDay> = vec![&days::day01::AocDayOne, &days::day02::AocDayTwo];
 
     if let Some(day) = days.iter().find(|d| d.get_day() == args.day) {
         day.solve()
