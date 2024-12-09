@@ -6,3 +6,4 @@ authors = ["Sagi Sarussi"]
 
 [dependencies]
 clap = { version = "4.5.18", features = ["derive"] }
+regex = "1.11.1"

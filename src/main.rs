@@ -1,5 +1,5 @@
 use clap::Parser;
-use days::day01::AocDayOne;
+use days::*;
 use puzzles::AocDay;
 use std::path::PathBuf;
 
@@ -32,10 +32,10 @@ fn main() {
     let days_path = format!("{}/days", data_path.display());
     std::fs::create_dir_all(&days_path).unwrap();
     std::env::set_var("DATA_PATH", data_path.display().to_string());
-    let mut days: Vec<&dyn AocDay> = vec![&AocDayOne];
+    let days: Vec<&dyn AocDay> = vec![&days::day01::AocDayOne];
 
     if let Some(day) = days.iter().find(|d| d.get_day() == args.day) {
-        day.validate()
+        day.solve()
     } else {
         if args.day == 0 && days.len() > 0 {
             println!(

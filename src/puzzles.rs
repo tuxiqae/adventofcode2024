@@ -3,12 +3,12 @@ use crate::prelude::*;
 #[derive(Debug)]
 pub struct DayPuzzlePair {
     pub input: String,
-    pub output: Option<String>,
+    pub output: Option<usize>,
 }
 
 impl DayPuzzlePair {
-    pub fn is_valid_solution(&self, solution: String) -> bool {
-        self.input.len() > 0 && self.output.clone().unwrap_or_default().trim() == solution.trim()
+    pub fn is_valid_solution(&self, solution: usize) -> bool {
+        self.input.len() > 0 && self.output.clone().unwrap_or_default() == solution
     }
 }
 
@@ -19,7 +19,13 @@ pub trait AocDay {
         let day_path = format!("{}/days/{:02}", data_path, self.get_day());
         let input = std::fs::read_to_string(format!("{}/{}", day_path, P1_EXAMPLE_IN))
             .expect("Could not read part 1 example input");
-        let output = std::fs::read_to_string(format!("{}/{}", day_path, P1_EXAMPLE_OUT)).ok();
+        let output = Some(
+            std::fs::read_to_string(format!("{}/{}", day_path, P1_EXAMPLE_OUT))
+                .unwrap()
+                .trim()
+                .parse::<usize>()
+                .unwrap(),
+        );
         DayPuzzlePair { input, output }
     }
     fn get_part2_example(&self) -> DayPuzzlePair {
@@ -27,7 +33,13 @@ pub trait AocDay {
         let day_path = format!("{}/days/{:02}", data_path, self.get_day());
         let input = std::fs::read_to_string(format!("{}/{}", day_path, P2_EXAMPLE_IN))
             .expect("Could not read part 2 example input");
-        let output = std::fs::read_to_string(format!("{}/{}", day_path, P2_EXAMPLE_OUT)).ok();
+        let output = Some(
+            std::fs::read_to_string(format!("{}/{}", day_path, P2_EXAMPLE_OUT))
+                .unwrap()
+                .trim()
+                .parse::<usize>()
+                .unwrap(),
+        );
         DayPuzzlePair { input, output }
     }
     fn get_part1(&self) -> DayPuzzlePair {
@@ -77,11 +89,17 @@ pub trait AocDay {
             eprintln!("Example solution is not valid!");
             eprintln!("Example solution: {}", example_solution.output.unwrap());
             eprintln!("Example expected: {}", example.output.unwrap());
-            std::process::exit(1);
         }
     }
     fn validate(&self) {
         self.validate_part1();
         self.validate_part2();
+    }
+
+    fn solve(&self) {
+        self.validate();
+        println!("Validated!");
+        dbg!(self.solve_part1(&self.get_part1().input).output.unwrap());
+        dbg!(self.solve_part2(&self.get_part2().input).output.unwrap());
     }
 }
