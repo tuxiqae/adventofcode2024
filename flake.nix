@@ -60,6 +60,7 @@
           packages = with pkgs; [
             cargo
             rustc
+            bacon
             aoc-cli
           ];
         };
