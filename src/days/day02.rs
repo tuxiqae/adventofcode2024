@@ -26,8 +26,22 @@ impl AocDay for AocDayTwo {
 
     fn solve_part1(&self, input: &str) -> DayPuzzlePair {
         let mut valid_reports = 0;
+        let valid_delta: std::ops::RangeInclusive<isize> = 1..=3;
+        let mut report_vec: Vec<isize>;
         for report in input.lines() {
-            valid_reports += validate_report(report);
+            // println!("Validating report #{idx}");
+            report_vec = report
+                .split_ascii_whitespace()
+                .map(|l| l.parse::<isize>().unwrap())
+                .collect();
+            if report_vec.get(0) > report_vec.get(1) {
+                // println!("Report is not ascending. Reversing");
+                report_vec.reverse(); // Make sure that the order is either ascending or unordered
+            }
+            valid_reports += report_vec
+                .windows(2)
+                .map(|w| valid_delta.contains(&(w.get(1).unwrap() - w.get(0).unwrap())))
+                .all(|b| b) as usize
         }
         DayPuzzlePair {
             input: input.to_string(),

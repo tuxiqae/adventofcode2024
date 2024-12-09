@@ -64,42 +64,48 @@ pub trait AocDay {
     }
     fn solve_part1(&self, input: &str) -> DayPuzzlePair;
     fn solve_part2(&self, input: &str) -> DayPuzzlePair;
-    fn validate_part1(&self) {
-        println!("Part1: ");
-        let example = self.get_part1_example();
-        let example_solution = self.solve_part1(&example.input);
-        if example_solution.is_valid_solution(example.output.clone().unwrap_or_default()) {
-            println!("Valid solution!");
-            println!("Example solution: {}", example_solution.output.unwrap());
+    fn validate_part(&self, part_num: u8) {
+        println!("Part #{}: ", part_num);
+        let mut example: DayPuzzlePair;
+        let mut example_solution: DayPuzzlePair;
+        if part_num == 1 {
+            example = self.get_part1_example();
+            example_solution = self.solve_part1(&example.input);
+        } else if part_num == 2 {
+            example = self.get_part2_example();
+            example_solution = self.solve_part2(&example.input);
         } else {
-            eprintln!("Example solution is not valid!");
-            eprintln!("Example solution: {}", example_solution.output.unwrap());
-            eprintln!("Example expected: {}", example.output.unwrap());
+            eprintln!("Part \"{}\" is not supported", part_num);
             std::process::exit(1);
         }
-    }
-    fn validate_part2(&self) {
-        println!("Part2: ");
-        let example = self.get_part2_example();
-        let example_solution = self.solve_part2(&example.input);
         if example_solution.is_valid_solution(example.output.clone().unwrap_or_default()) {
             println!("Valid solution!");
-            println!("Example solution: {}", example_solution.output.unwrap());
+            println!("  solution: \"{}\"", example_solution.output.unwrap());
         } else {
-            eprintln!("Example solution is not valid!");
-            eprintln!("Example solution: {}", example_solution.output.unwrap());
-            eprintln!("Example expected: {}", example.output.unwrap());
+            eprintln!("Example solution is invalid!");
+            eprintln!("  Expected \"{}\"", example_solution.output.unwrap());
+            eprintln!("  Received: \"{}\"", example.output.unwrap());
+            if part_num == 1 {
+                std::process::exit(1);
+            }
         }
+        println!();
     }
+
     fn validate(&self) {
-        self.validate_part1();
-        self.validate_part2();
+        self.validate_part(1);
+        self.validate_part(2);
     }
 
     fn solve(&self) {
         self.validate();
-        println!("Validated!");
-        dbg!(self.solve_part1(&self.get_part1().input).output.unwrap());
-        dbg!(self.solve_part2(&self.get_part2().input).output.unwrap());
+        println!("=================================");
+        let solution_part1 = self.solve_part1(&self.get_part1().input).output.unwrap();
+        let solution_part2 = self.solve_part2(&self.get_part2().input).output.unwrap();
+        println!(
+            "Solutions:\n  Part 1: \"{}\"\n  Part 2: \"{}\"",
+            solution_part1, solution_part2
+        );
+        println!("=================================");
     }
 }
